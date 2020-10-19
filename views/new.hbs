@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>請輸入你的支出</h1>
+  <small>*必填欄位</small>
+  <form action="/records" method="POST">
+
+    <div class="form-group">
+      <label for="name">名稱*</label>
+      <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
+    </div>
+
+    <div class="form-group">
+      <label for="date">日期*</label>
+      <input type="date" class="form-control" id="date" name="date" aria-describedby="dateHelp" required>
+    </div>
+
+    <div class="form-group">
+      <label for="date">類別*</label>
+      <select class="form-control" id="category" name="category">
+        <option disabled selected>Select</option>
+        {{#each categoryList}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">金額*</label>
+      <input type="number" class="form-control" id="amount" name="amount" aria-describedby="amountHelp" required>
+    </div>
+
+    <button type="submit">新增支出</button>
+
+  </form>
+</div>
