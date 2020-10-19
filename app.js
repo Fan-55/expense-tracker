@@ -7,6 +7,9 @@ const PORT = process.env.PORT || 3000
 const routes = require('./routes/index')
 require('./config/mongoose')
 
+app.engine('hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }))
+app.set('view engine', 'hbs')
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
 

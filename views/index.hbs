@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <div class="row row-cols-1 list-group">
+    {{#each records}}
+    <div class="col list-group-item">
+      <div class="category-icon">
+        {{{this.icon}}}
+      </div>
+
+      <div class="name">
+        {{this.name}}
+      </div>
+
+      <div class="category">
+        {{this.category}}
+      </div>
+
+      <div class="date">
+        {{this.date}}
+      </div>
+
+      <div class="amount">
+        {{this.amount}}
+      </div>
+      <a href="/records/{{this.id}}/edit">修改</a>
+      <form action="/records/{{this.id}}?_method=DELETE" method="POST">
+        <button type="submit">刪除</button>
+      </form>
+    </div>
+    {{/each}}
+  </div>
+</div>
