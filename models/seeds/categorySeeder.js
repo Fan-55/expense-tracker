@@ -5,7 +5,10 @@ const db = require('../../config/mongoose')
 db.once('open', () => {
   const categorySeeds = require('./categorySeeds.json').categorySeeds
   categorySeeds.forEach(seed => {
-    Category.create({ name: seed.category })
+    Category.create({
+      name: seed.category,
+      icon: seed.icon
+    })
   })
   console.log('Category seeds created!')
 })

@@ -7,7 +7,7 @@ const getRandomCategory = require('../../utils/getRandomCategory')
 db.once('open', () => {
   Category.find()
     .then(results => {
-      const categoryList = results.map(category => { return category.name })
+      const categoryList = results.map(category => { return category._id })
       const randomCategory = getRandomCategory(categoryList)
       Record.create({
         name: 'test',
