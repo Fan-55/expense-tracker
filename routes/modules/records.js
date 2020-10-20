@@ -49,7 +49,15 @@ router.put('/:id', (req, res, next) => {
       Object.assign(record, req.body)
       return record.save()
     })
-    .then(res.redirect('/'))
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
+})
+
+router.delete('/:id', (req, res, next) => {
+  const id = req.params.id
+  Record.findById(id)
+    .then(record => record.remove())
+    .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
 

@@ -23,7 +23,7 @@
       </div>
       <a href="/records/{{this._id}}/edit">修改</a>
       <form action="/records/{{this._id}}?_method=DELETE" method="POST">
-        <button type="submit">刪除</button>
+        <button type="submit" onclick="return confirm('確定要刪除這筆紀錄嗎?')">刪除</button>
       </form>
     </div>
     {{/each}}
