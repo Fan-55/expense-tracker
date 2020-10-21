@@ -21,4 +21,4 @@ app.use(methodOverride('_method'))
 app.use(express.static('public'))
 app.use(routes)
 
-app.listen(PORT, () => console.log(`This app is listening at ${PORT}`))
+app.listen(PORT, () => console.log(`This app is listening at http://loaclhost:${PORT}`))
