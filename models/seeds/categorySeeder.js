@@ -3,12 +3,12 @@ const Category = require('../category')
 const db = require('../../config/mongoose')
 
 db.once('open', () => {
-  const categorySeeds = require('./categorySeeds.json').categorySeeds
-  categorySeeds.forEach(seed => {
-    Category.create({
-      name: seed.category,
-      icon: seed.icon
+  const categories = require('../category.json').categories
+
+  Category.insertMany(categories)
+    .then(results => {
+      console.log('Category seeds created!')
+      db.close()
     })
-  })
-  console.log('Category seeds created!')
+    .catch(err => console.log(err))
 })
