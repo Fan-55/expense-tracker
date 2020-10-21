@@ -1,6 +1,9 @@
-module.exports = (dateObj) => {
-  const year = dateObj.getFullYear()
-  const month = dateObj.getMonth() + 1
-  const date = dateObj.getDate()
-  return `${year}-${month}-${date}`
+module.exports = (records) => {
+  if (records.length !== undefined) {
+    for (const record of records) {
+      record.date = record.date.toISOString().split('T')[0]
+    }
+  } else {
+    records.date = records.date.toISOString().split('T')[0]
+  }
 }

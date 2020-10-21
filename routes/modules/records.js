@@ -4,6 +4,8 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
+const getDate = require('../../utils/getDate')
+
 //Go to create new record page
 router.get('/new', (req, res, next) => {
   Category.find()
@@ -26,10 +28,6 @@ router.get('/filter', async (req, res, next) => {
   const getTotalAmount = require('../../utils/getTotalAmount')
   const selectedCategory = req.query.category
   try {
-    const records = await Record
-      .find({ category: selectedCategory })
-      .populate('category', 'name icon')
-      .lean()
     const categories = await Category.find().lean()
     const categoryList = categories.map(category => {
       return {
@@ -37,6 +35,15 @@ router.get('/filter', async (req, res, next) => {
         name: category.name
       }
     })
+
+    const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
+
+    const records = await Record
+      .find({ category: selectedCategoryId })
+      .populate('category', 'name icon')
+      .lean()
+    getDate(records)
+
     const totalAmount = getTotalAmount(records)
 
     res.render('index', { records, totalAmount, categoryList, selectedCategory })
@@ -50,10 +57,7 @@ router.get('/filter', async (req, res, next) => {
 router.get('/:id/edit', async (req, res, next) => {
   const id = req.params.id
   try {
-    const categories = await Category.find()
-      .select('name')
-      .lean()
-
+    const categories = await Category.find().lean()
     const categoryList = categories.map(category => {
       return {
         _id: category._id.toString(),
@@ -61,11 +65,9 @@ router.get('/:id/edit', async (req, res, next) => {
       }
     })
 
-    let record = await Record.findById(id)
-      .lean()
-
+    const record = await Record.findById(id).lean()
     record.category = record.category.toString()
-
+    getDate(record)
     res.render('edit', { categoryList, record })
 
   } catch (err) {

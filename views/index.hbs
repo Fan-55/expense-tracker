@@ -5,7 +5,7 @@
       <select class="form-control" name="category" onchange="this.form.submit()">
         <option disabled selected>類別</option>
         {{#each categoryList}}
-        <option value="{{this._id}}" {{#if_equal this._id ../selectedCategory}}selected{{/if_equal}}>{{this.name}}
+        <option value="{{this.name}}" {{#if_equal this.name ../selectedCategory}}selected{{/if_equal}}>{{this.name}}
         </option>
         {{/each}}
       </select>

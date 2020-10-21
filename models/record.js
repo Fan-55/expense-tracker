@@ -12,7 +12,7 @@ const recordSchema = new Schema({
     ref: 'Category'
   },
   date: {
-    type: String,
+    type: Date,
     required: true
   },
   amount: {

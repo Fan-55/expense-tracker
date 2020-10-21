@@ -12,6 +12,3 @@ Desktop.ini
 node_modules
 *.log
 *.gz
-
-#others
-record.json
