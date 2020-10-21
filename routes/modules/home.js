@@ -11,15 +11,14 @@ router.get('/', async (req, res, next) => {
     const records = await Record.find()
       .populate('category', 'name icon')
       .lean()
-
     const categoryList = await Category.find().lean()
-
     const totalAmount = getTotalAmount(records)
 
     res.render('index', { records, totalAmount, categoryList })
-
   }
-  catch (err) { console.log(err) }
+  catch (err) {
+    console.log(err)
+  }
 })
 
 module.exports = router

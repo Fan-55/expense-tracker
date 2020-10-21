@@ -17,6 +17,7 @@ app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+app.use(express.static('public'))
 app.use(routes)
 
 app.listen(PORT, () => console.log(`This app is listening at ${PORT}`))

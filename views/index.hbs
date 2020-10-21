@@ -1,51 +1,55 @@
-<h1>總金額：{{totalAmount}}</h1>
+<div class="container mt-5 mb-5">
 
-<form action="/records/filter" method="GET">
-  <div class="form-group">
-    <select class="form-control" name="category" onchange="this.form.submit()">
-      <option disabled selected>類別</option>
-      {{#each categoryList}}
-      <option value="{{this._id}}" {{#if_equal this._id ../selectedCategory}}selected{{/if_equal}}>{{this.name}}
-      </option>
-      {{/each}}
-    </select>
+  <form action="/records/filter" method="GET" id="index-category-filter" class="mx-auto">
+    <div class="form-group">
+      <select class="form-control" name="category" onchange="this.form.submit()">
+        <option disabled selected>類別</option>
+        {{#each categoryList}}
+        <option value="{{this._id}}" {{#if_equal this._id ../selectedCategory}}selected{{/if_equal}}>{{this.name}}
+        </option>
+        {{/each}}
+      </select>
+    </div>
+  </form>
+
+  <div class="total-amount d-flex justify-content-center align-items-center">
+    <h5 class="mr-3">總金額:</h5>
+    <h1>{{totalAmount}}</h1>
   </div>
-</form>
 
-<div class="container mt-5">
-  <div class="row row-cols-1 list-group">
+  <div class="row row-cols-1 list-group mx-auto" id="records">
     {{#each records}}
-    <div class="col list-group-item">
-      <div class="category-icon">
+    <div class="col list-group-item d-flex align-items-center flex-wrap">
+
+      <div class="category-icon mr-3">
         {{{this.category.icon}}}
       </div>
 
-      <div class="name">
-        {{this.name}}
+      <div class="name-and-date flex-grow-1">
+        <div class="name">
+          {{this.name}}
+        </div>
+        <div class="date">
+          {{this.date}}
+        </div>
       </div>
 
-      <div class="category-name">
-        {{this.category.name}}
+      <div class="amount mr-5">
+        <i class="fas fa-dollar-sign"></i>
+        <span>{{this.amount}}</span>
       </div>
 
-      <div class="date">
-        {{this.date}}
+      <div class="edit-wrapper d-flex align-items-center">
+        <a href="/records/{{this._id}}/edit" class="btn btn-info btn-sm mr-1">編輯</a>
+        <form action="/records/{{this._id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('確定要刪除這筆紀錄嗎?')">刪除</button>
+        </form>
       </div>
-
-      <div class="amount">
-        {{this.amount}}
-      </div>
-      <a href="/records/{{this._id}}/edit">修改</a>
-      <form action="/records/{{this._id}}?_method=DELETE" method="POST">
-        <button type="submit" onclick="return confirm('確定要刪除這筆紀錄嗎?')">刪除</button>
-      </form>
     </div>
     {{/each}}
-  </div>
 
-  <div class="row">
-    <div class="col-12">
-      <a href="/records/new">新增支出</a>
+    <div class="col">
+
     </div>
   </div>
 </div>

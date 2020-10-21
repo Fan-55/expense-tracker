@@ -30,16 +30,13 @@ router.get('/filter', async (req, res, next) => {
       .find({ category: selectedCategory })
       .populate('category', 'name icon')
       .lean()
-
     const categories = await Category.find().lean()
-
     const categoryList = categories.map(category => {
       return {
         _id: category._id.toString(),
         name: category.name
       }
     })
-
     const totalAmount = getTotalAmount(records)
 
     res.render('index', { records, totalAmount, categoryList, selectedCategory })

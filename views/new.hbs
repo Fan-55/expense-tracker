@@ -1,7 +1,9 @@
-<div class="container">
-  <h1>請輸入你的支出</h1>
-  <small>*必填欄位</small>
-  <form action="/records" method="POST">
+<div class="container mt-5">
+  <h4 class="text-center">請輸入你的支出</h4>
+
+  <form action="/records" method="POST" id="new-form" class="mx-auto">
+    <small class="hint d-block mb-2">*必填欄位</small>
+
 
     <div class="form-group">
       <label for="name">名稱*</label>
@@ -28,7 +30,7 @@
       <input type="number" class="form-control" id="amount" name="amount" aria-describedby="amountHelp" required>
     </div>
 
-    <button type="submit">新增支出</button>
+    <button type="submit" class="btn btn-success" onclick="return confirm('確定要新增此筆支出?')">送出</button>
 
   </form>
 </div>
