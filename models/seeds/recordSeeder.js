@@ -3,22 +3,20 @@ const Category = require('../category')
 
 const db = require('../../config/mongoose')
 
-const getRandomCategory = require('../../utils/getRandomCategory')
-const getDate = require('../../utils/getDate')
-const getRandomAmount = require('../../utils/getRandomAmount')
+db.once('open', async () => {
+  try {
+    const categories = await Category.find().lean()
+    const records = require('../record.json').records
+    for (const record of records) {
+      const targetId = categories.find(category => record.category === category.name)._id
+      record.category = targetId
+    }
 
-db.once('open', () => {
-  Category.find()
-    .then(categories => {
-      const categoryList = categories.map(category => { return category._id })
-      for (let i = 1; i <= 10; i++) {
-        Record.create({
-          name: '測試紀錄:' + i,
-          category: getRandomCategory(categoryList),
-          date: getDate(new Date()),
-          amount: getRandomAmount(1, 100)
-        })
-      }
-    })
-    .catch(err => console.log(err))
+    await Record.insertMany(records)
+    console.log('Category seeds created!')
+    db.close()
+
+  } catch (err) {
+    console.log(err)
+  }
 })
