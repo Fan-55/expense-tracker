@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
     res.render('index', { records, totalAmount, categoryList })
   }
   catch (err) {
-    console.log(err)
+    next(err)
   }
 })
 

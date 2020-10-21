@@ -12,7 +12,7 @@ router.get('/new', (req, res, next) => {
     .select('name')
     .lean()
     .then(categoryList => res.render('new', { categoryList }))
-    .catch(err => console.log(err))
+    .catch(err => next(err))
 })
 
 //Create a new record
@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
   const newRecord = new Record(req.body)
   newRecord.save()
     .then(result => res.redirect('/'))
-    .catch(err => console.log(err))
+    .catch(err => next(err))
 })
 
 //filter by category
@@ -49,7 +49,7 @@ router.get('/filter', async (req, res, next) => {
     res.render('index', { records, totalAmount, categoryList, selectedCategory })
 
   } catch (err) {
-    console.log(err)
+    next(err)
   }
 })
 
@@ -71,7 +71,7 @@ router.get('/:id/edit', async (req, res, next) => {
     res.render('edit', { categoryList, record })
 
   } catch (err) {
-    console.log(err)
+    next(err)
   }
 })
 
@@ -84,7 +84,7 @@ router.put('/:id', (req, res, next) => {
       return record.save()
     })
     .then(() => res.redirect('/'))
-    .catch(err => console.log(err))
+    .catch(err => next(err))
 })
 
 //Delete a record
@@ -93,7 +93,7 @@ router.delete('/:id', (req, res, next) => {
   Record.findById(id)
     .then(record => record.remove())
     .then(() => res.redirect('/'))
-    .catch(err => console.log(err))
+    .catch(err => next(err))
 })
 
 module.exports = router
