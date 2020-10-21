@@ -3,17 +3,23 @@ const router = express.Router()
 
 const Record = require('../../models/record')
 const Category = require('../../models/category')
-const getTotalAmount = require('../../utils/getTotalAmount')
 
-router.get('/', (req, res, next) => {
-  Record.find()
-    .populate('category', 'name icon -_id')
-    .lean()
-    .then(records => {
-      const totalAmount = getTotalAmount(records)
-      res.render('index', { records, totalAmount })
-    })
-    .catch(err => console.log(err))
+//Read all the records
+router.get('/', async (req, res, next) => {
+  const getTotalAmount = require('../../utils/getTotalAmount')
+  try {
+    const records = await Record.find()
+      .populate('category', 'name icon')
+      .lean()
+
+    const categoryList = await Category.find().lean()
+
+    const totalAmount = getTotalAmount(records)
+
+    res.render('index', { records, totalAmount, categoryList })
+
+  }
+  catch (err) { console.log(err) }
 })
 
 module.exports = router

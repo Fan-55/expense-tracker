@@ -16,11 +16,11 @@
     </div>
 
     <div class="form-group">
-      <label for="date">類別*</label>
+      <label for="category">類別*</label>
       <select class="form-control" id="category" name="category">
         <option disabled>Select</option>
         {{#each categoryList}}
-        <option value="{{this._id}}" {{if_equal this._id ../record.category}}>{{this.name}}
+        <option value="{{this._id}}" {{#if_equal this._id ../record.category}}selected{{/if_equal}}>{{this.name}}
         </option>
         {{/each}}
       </select>

@@ -1,5 +1,17 @@
 <h1>總金額：{{totalAmount}}</h1>
 
+<form action="/records/filter" method="GET">
+  <div class="form-group">
+    <select class="form-control" name="category" onchange="this.form.submit()">
+      <option disabled selected>類別</option>
+      {{#each categoryList}}
+      <option value="{{this._id}}" {{#if_equal this._id ../selectedCategory}}selected{{/if_equal}}>{{this.name}}
+      </option>
+      {{/each}}
+    </select>
+  </div>
+</form>
+
 <div class="container mt-5">
   <div class="row row-cols-1 list-group">
     {{#each records}}
