@@ -1,4 +1,4 @@
-## Restaurant List
+## Expense Tracker
 
 This is a web application for you to keep track of your daily expense.
 
