@@ -3,7 +3,7 @@ const Category = require('../category')
 const db = require('../../config/mongoose')
 
 db.once('open', () => {
-  const categories = require('../category.json').categories
+  const categories = require('./data/category.json').categories
 
   Category.insertMany(categories)
     .then(results => {

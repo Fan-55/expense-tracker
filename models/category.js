@@ -9,7 +9,7 @@ const categorySchema = new Schema({
   },
   icon: {
     type: String,
-    default: '<i class="far fa-user"></i>'
+    default: '<i class="far fa-user fa-2x"></i>'
   }
 })
 
