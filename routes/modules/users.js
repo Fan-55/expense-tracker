@@ -10,7 +10,8 @@ router.get('/login', (req, res, next) => {
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
+  failureFlash: true
 }))
 
 router.get('/register', (req, res, next) => {
@@ -47,7 +48,8 @@ router.post('/register', async (req, res, next) => {
       const salt = await bcrypt.genSalt(10)
       const hash = await bcrypt.hash(password, salt)
       await User.create({ name, email, password: hash })
-      res.redirect('/')
+      req.flash('success_msg', '註冊成功，請登入。')
+      res.redirect('/users/login')
     }
   } catch (err) {
     console.log(err)
@@ -57,6 +59,7 @@ router.post('/register', async (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
   req.logout()
+  req.flash('success_msg', '已成功登出。')
   res.redirect('/users/login')
 })
 

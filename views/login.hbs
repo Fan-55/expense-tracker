@@ -3,13 +3,14 @@
     <div class="card card-body">
       <h2 class="text-center mt-3">會員登入</h2>
       <form action="/users/login" method="POST">
+        {{> message}}
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email">
+          <input type="email" id="email" name="email" class="form-control" placeholder="請輸入Email">
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password">
+          <label for="password">密碼</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="請輸入密碼">
         </div>
         <button type="submit" class="btn btn-primary btn-block">登入</button>
       </form>
