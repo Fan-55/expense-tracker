@@ -3,24 +3,65 @@
     <div class="card card-body">
       <h2 class="text-center mt-3">會員註冊</h2>
       <form action="/users/register" method="POST">
+        <small>必填欄位*</small>
         <div class="form-group">
-          <label for="name">姓名</label>
-          <input type="text" id="name" name="name" class="form-control" placeholder="請輸入姓名">
+          <label for="name">*姓名</label>
+          <input type="text" id="name" name="name" class="form-control {{#if errors.name}}is-invalid{{/if}}"
+            placeholder="請輸入姓名" value="{{name}}">
+          {{#if errors.name}}
+          <div class="invalid-feedback">
+            {{errors.name}}
+          </div>
+          {{/if}}
         </div>
+
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" class="form-control" placeholder="請輸入Email">
+          <label for="email">*Email</label>
+          <input type="email" id="email" name="email"
+            class="form-control {{#if_true errors.email errors.userExist}}is-invalid{{/if_true}}" placeholder="請輸入Email"
+            value="{{email}}">
+          {{#if errors.email}}
+          <div class="invalid-feedback">
+            {{errors.email}}
+          </div>
+          {{/if}}
+          {{#if errors.userExist}}
+          <div class="invalid-feedback">
+            {{errors.userExist}}
+          </div>
+          {{/if}}
         </div>
+
         <div class="form-group">
-          <label for="password">密碼</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="請輸入密碼">
+          <label for="password">*密碼</label>
+          <input type="password" id="password" name="password"
+            class="form-control {{#if_true errors.password errors.diffPassword}}is-invalid{{/if_true}}"
+            placeholder="請輸入密碼" value="{{password}}">
+          {{#if errors.password}}
+          <div class="invalid-feedback">
+            {{errors.password}}
+          </div>
+          {{/if}}
+          {{#if errors.diffPassword}}
+          <div class="invalid-feedback">
+            {{errors.diffPassword}}
+          </div>
+          {{/if}}
         </div>
+
         <div class="form-group">
-          <label for="confirmPassword">確認密碼</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
-            placeholder="請再輸入一次密碼">
+          <label for="confirmPassword">*確認密碼</label>
+          <input type="password" id="confirmPassword" name="confirmPassword"
+            class="form-control {{#if errors.diffPassword}}is-invalid{{/if}}" placeholder="請再輸入一次密碼">
+          {{#if errors.diffPassword}}
+          <div class="invalid-feedback">
+            {{errors.diffPassword}}
+          </div>
+          {{/if}}
         </div>
+
         <button type="submit" class="btn btn-primary btn-block">送出</button>
+
       </form>
       <p class="lead mt-4">
         已有帳號? <a href="/users/login">登入</a>
