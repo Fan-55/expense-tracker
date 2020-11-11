@@ -9,12 +9,11 @@ const Category = require('../../models/category')
 router.get('/', async (req, res, next) => {
   const getTotalAmount = require('../../utils/getTotalAmount')
   const getDate = require('../../utils/getDate')
+  const userId = req.user._id
   try {
-    const records = await Record.find()
-      .populate('category', 'name icon')
-      .lean()
+    const records = await Record.find({ userId }).populate('category', 'name icon').lean().exec()
     getDate(records)
-    const categoryList = await Category.find().lean()
+    const categoryList = await Category.find().lean().exec()
     const totalAmount = getTotalAmount(records)
 
     res.render('index', { records, totalAmount, categoryList })
