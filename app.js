@@ -1,10 +1,11 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-
 const app = express()
-const PORT = process.env.PORT || 3000
 const routes = require('./routes/index')
 require('./config/mongoose')
 
@@ -21,4 +22,4 @@ app.use(methodOverride('_method'))
 app.use(express.static('public'))
 app.use(routes)
 
-app.listen(PORT, () => console.log(`This app is listening at http://loaclhost:${PORT}`))
+app.listen(process.env.PORT, () => console.log(`This app is listening at http://loaclhost:${process.env.PORT}`))
