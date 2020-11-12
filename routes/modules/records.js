@@ -5,14 +5,11 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 
 const getDate = require('../../utils/getDate')
+const getCategoryList = require('../../middleware/getCategoryList')
 
 //Go to create new record page
-router.get('/new', (req, res, next) => {
-  Category.find()
-    .select('name')
-    .lean()
-    .then(categoryList => res.render('new', { categoryList }))
-    .catch(err => next(err))
+router.get('/new', getCategoryList, (req, res, next) => {
+  res.render('new')
 })
 
 //Create a new record
@@ -27,54 +24,15 @@ router.post('/', (req, res, next) => {
     })
 })
 
-//filter by category
-router.get('/filter', async (req, res, next) => {
-  const getTotalAmount = require('../../utils/getTotalAmount')
-  const selectedCategory = req.query.category
-  try {
-    const categories = await Category.find().lean()
-    const categoryList = categories.map(category => {
-      return {
-        _id: category._id.toString(),
-        name: category.name
-      }
-    })
-
-    const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
-
-    const records = await Record
-      .find({ category: selectedCategoryId })
-      .populate('category', 'name icon')
-      .lean()
-    getDate(records)
-
-    const totalAmount = getTotalAmount(records)
-
-    res.render('index', { records, totalAmount, categoryList, selectedCategory })
-
-  } catch (err) {
-    next(err)
-  }
-})
-
 //Go to edit a record page
-router.get('/:id/edit', async (req, res, next) => {
+router.get('/:id/edit', getCategoryList, async (req, res, next) => {
   const _id = req.params.id
   const userId = req.user._id
   try {
-    const categories = await Category.find().lean()
-    const categoryList = categories.map(category => {
-      return {
-        _id: category._id.toString(),
-        name: category.name
-      }
-    })
-
+    const categoryList = res.locals.categoryList
     const record = await Record.findOne({ _id, userId }).lean().exec()
-    record.category = record.category.toString()
     getDate(record)
     res.render('edit', { categoryList, record })
-
   } catch (err) {
     next(err)
   }
@@ -103,4 +61,19 @@ router.delete('/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
+//filter by category
+router.get('/', getCategoryList, async (req, res, next) => {
+  const getTotalAmount = require('../../utils/getTotalAmount')
+  const selectedCategory = req.query.category
+  const categoryList = res.locals.categoryList
+  try {
+    const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
+    const records = await Record.find({ category: selectedCategoryId }).populate('category', 'name icon').lean()
+    getDate(records)
+    const totalAmount = getTotalAmount(records)
+    res.render('index', { records, totalAmount, selectedCategory })
+  } catch (err) {
+    next(err)
+  }
+})
 module.exports = router
