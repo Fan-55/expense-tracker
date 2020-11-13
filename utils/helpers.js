@@ -10,8 +10,10 @@ module.exports = {
     }
   },
   if_idEqual: function (objectId1, objectId2, options) {
-    if (objectId1.toString() === objectId2.toString()) {
-      return options.fn(this)
+    if (objectId1 && objectId2) {
+      if (objectId1.toString() === objectId2.toString()) {
+        return options.fn(this)
+      }
     }
   }
 }

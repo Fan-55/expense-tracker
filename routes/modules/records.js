@@ -4,24 +4,54 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
-const getDate = require('../../utils/getDate')
-const getCategoryList = require('../../middleware/getCategoryList')
+const { getTotalAmount, formatDate, getCategoryList, getLocalDate } = require('../../utils/functions')
 
-//Go to create new record page
-router.get('/new', getCategoryList, (req, res, next) => {
-  res.render('new')
+//get "create a new record" page
+router.get('/new', async (req, res, next) => {
+  try {
+    const date = getLocalDate()
+    const categoryList = await getCategoryList(Category)
+    res.render('new', { categoryList, date })
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
 })
 
 //Create a new record
-router.post('/', (req, res, next) => {
-  const newRecord = Object.assign({}, req.body)
-  newRecord.userId = req.user._id
-  Record.create(newRecord)
-    .then(() => res.redirect('/'))
-    .catch(err => {
+router.post('/', async (req, res, next) => {
+  console.log(req.body)
+  const { name, merchant, date, category, amount } = req.body
+
+  const errors = {}
+  if (!name) {
+    errors.name = '名稱為必填欄位。'
+  }
+  if (!date) {
+    errors.date = '日期為必填欄位。'
+  }
+  if (!category) {
+    errors.category = '種類為必填欄位。'
+  }
+  if (!amount) {
+    errors.amount = '金額為必填欄位。'
+  }
+
+  //if error exists, go back to edit page with error message; else save the updated data and go back to index page
+  if (Object.keys(errors).length) {
+    const categoryList = await getCategoryList(Category)
+    res.render('new', { errors, name, merchant, date, category, amount, categoryList })
+  } else {
+    const newRecord = Object.assign({}, req.body)
+    newRecord.userId = req.user._id
+    try {
+      await Record.create(newRecord)
+      res.redirect('/')
+    } catch (err) {
       console.log(err)
       next(err)
-    })
+    }
+  }
 })
 
 //Go to edit a record page

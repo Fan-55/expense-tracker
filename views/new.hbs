@@ -7,32 +7,57 @@
 
     <div class="form-group">
       <label for="name">名稱*</label>
-      <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
+      <input type="text" class="form-control {{#if errors.name}}is-invalid{{/if}}" id="name" name="name"
+        aria-describedby="nameHelp" value="{{name}}" required>
+      {{#if errors.name}}
+      <div class="invalid-feedback">
+        {{errors.name}}
+      </div>
+      {{/if}}
     </div>
 
     <div class="form-group">
       <label for="merchant">店家</label>
-      <input type="text" class="form-control" id="merchant" name="merchant" aria-describedby="merchantHelp">
+      <input type="text" class="form-control" id="merchant" name="merchant" aria-describedby="merchantHelp"
+        value="{{merchant}}">
     </div>
 
     <div class="form-group">
       <label for="date">日期*</label>
-      <input type="date" class="form-control" id="date" name="date" aria-describedby="dateHelp" required>
+      <input type="date" class="form-control {{#if errors.date}}is-invalid{{/if}}" id="date" name="date"
+        aria-describedby="dateHelp" value="{{date}}" required>
+      {{#if errors.date}}
+      <div class="invalid-feedback">
+        {{errors.date}}
+      </div>
+      {{/if}}
     </div>
 
     <div class="form-group">
       <label for="date">類別*</label>
-      <select class="form-control" id="category" name="category">
+      <select class="form-control {{#if errors.category}}is-invalid{{/if}}" id="category" name="category" required>
         <option disabled selected>Select</option>
         {{#each categoryList}}
-        <option value="{{this._id}}">{{this.name}}</option>
+        <option value="{{this._id}}" {{#if_idEqual this._id ../category}}selected{{/if_idEqual}}>
+          {{this.name}}</option>
         {{/each}}
       </select>
+      {{#if errors.category}}
+      <div class="invalid-feedback">
+        {{errors.category}}
+      </div>
+      {{/if}}
     </div>
 
     <div class="form-group">
       <label for="amount">金額*</label>
-      <input type="number" class="form-control" id="amount" name="amount" aria-describedby="amountHelp" required>
+      <input type="number" class="form-control {{#if errors.amount}}is-invalid{{/if}}" id="amount" name="amount"
+        aria-describedby="amountHelp" value="{{amount}}" required>
+      {{#if errors.amount}}
+      <div class="invalid-feedback">
+        {{errors.amount}}
+      </div>
+      {{/if}}
     </div>
 
     <button type="submit" class="btn btn-success" onclick="return confirm('確定要新增此筆支出?')">送出</button>
