@@ -2,19 +2,19 @@ const express = require('express')
 const router = express.Router()
 
 const Record = require('../../models/record')
-const getCategoryList = require('../../middleware/getCategoryList')
+const Category = require('../../models/category')
 
+const { getTotalAmount, formatDate, getCategoryList } = require('../../utils/functions')
 
 //Read all the records
-router.get('/', getCategoryList, async (req, res, next) => {
-  const getTotalAmount = require('../../utils/getTotalAmount')
-  const getDate = require('../../utils/getDate')
-  const userId = req.user._id
+router.get('/', async (req, res, next) => {
   try {
+    const userId = req.user._id
     const records = await Record.find({ userId }).populate('category', 'name icon').lean().exec()
-    getDate(records)
+    formatDate(records)
     const totalAmount = getTotalAmount(records)
-    res.render('index', { records, totalAmount })
+    const categoryList = await getCategoryList(Category)
+    res.render('index', { records, totalAmount, categoryList })
   }
   catch (err) {
     next(err)

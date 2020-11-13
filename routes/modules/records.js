@@ -4,7 +4,7 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
-const { getTotalAmount, formatDate, getCategoryList, getLocalDate } = require('../../utils/functions')
+const { getTotalAmount, formatDate, getCategoryList, getLocalDate, getDateRange } = require('../../utils/functions')
 
 //get "create a new record" page
 router.get('/new', async (req, res, next) => {
@@ -55,57 +55,61 @@ router.post('/', async (req, res, next) => {
 })
 
 //Go to edit a record page
-router.get('/:id/edit', getCategoryList, async (req, res, next) => {
-  const _id = req.params.id
-  const userId = req.user._id
+router.get('/:id/edit', async (req, res, next) => {
   try {
-    const categoryList = res.locals.categoryList
+    const _id = req.params.id
+    const userId = req.user._id
+    const categoryList = await getCategoryList(Category)
     const record = await Record.findOne({ _id, userId }).lean().exec()
-    getDate(record)
+    formatDate(record)
     res.render('edit', { categoryList, record })
   } catch (err) {
+    console.log(err)
     next(err)
   }
 })
 
 //Update a record
-router.put('/:id', (req, res, next) => {
-  const _id = req.params.id
-  const userId = req.user._id
-  Record.findOne({ _id, userId })
-    .then(record => {
-      Object.assign(record, req.body)
-      return record.save()
-    })
-    .then(() => res.redirect('/'))
-    .catch(err => next(err))
+router.put('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.id
+    const userId = req.user._id
+    const originalRecord = await Record.findOne({ _id, userId }).exec()
+    Object.assign(originalRecord, req.body)
+    await originalRecord.save()
+    res.redirect('/')
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
 })
 
 //Delete a record
-router.delete('/:id', (req, res, next) => {
-  const _id = req.params.id
-  const userId = req.user._id
-  Record.findOne({ _id, userId })
-    .then(record => record.remove())
-    .then(() => res.redirect('/'))
-    .catch(err => next(err))
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.id
+    const userId = req.user._id
+    const record = await Record.findOne({ _id, userId })
+    await record.remove()
+    res.redirect('/')
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
 })
 
 //filter by category or month
-router.get('/', getCategoryList, async (req, res, next) => {
-  const getTotalAmount = require('../../utils/getTotalAmount')
-
+router.get('/', async (req, res, next) => {
   const [filter, option] = Object.entries(req.query)[0]
 
   if (filter === 'month') {
-    const getDateRange = require('../../utils/getDateRange')
-    const dateRange = getDateRange(option)
-    console.log(dateRange)
     try {
+      const dateRange = getDateRange(option)
       const records = await Record.find({ date: dateRange }).populate('category', 'name icon').lean()
-      getDate(records)
+      formatDate(records)
       const totalAmount = getTotalAmount(records)
-      res.render('index', { records, totalAmount, option })
+      const categoryList = await getCategoryList(Category)
+      res.render('index', { records, totalAmount, option, categoryList })
     } catch (err) {
       console.log(err)
       next(err)
@@ -113,15 +117,16 @@ router.get('/', getCategoryList, async (req, res, next) => {
   }
 
   if (filter === 'category') {
-    const selectedCategory = req.query.category
-    const categoryList = res.locals.categoryList
     try {
+      const selectedCategory = req.query.category
+      const categoryList = await getCategoryList(Category)
       const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
       const records = await Record.find({ category: selectedCategoryId }).populate('category', 'name icon').lean()
-      getDate(records)
+      formatDate(records)
       const totalAmount = getTotalAmount(records)
-      res.render('index', { records, totalAmount, selectedCategory })
+      res.render('index', { records, totalAmount, selectedCategory, categoryList })
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }
