@@ -102,6 +102,7 @@ router.delete('/:id', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   const monthOption = req.query.month
   const cateOption = req.query.category
+  const userId = req.user._id
 
   try {
     //get date condition
@@ -119,6 +120,7 @@ router.get('/', async (req, res, next) => {
     if (selectedCategoryId) {
       filter.category = selectedCategoryId
     }
+    filter.userId = userId
 
     const records = await Record.find(filter).populate('category', 'name icon').lean()
     formatDate(records)
