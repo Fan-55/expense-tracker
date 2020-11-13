@@ -1,22 +1,21 @@
 <div class="container mt-5 mb-5">
 
-  <form action="/records" method="GET" id="index-month-filter" class="mx-auto">
-    <div class="form-group">
-      <input type="month" class="form-control" name="month" aria-describedby="month-filter-Help" value="{{option}}"
-        onchange="this.form.submit()">
-    </div>
-  </form>
+  <form action="/records" method="GET" id="index-filter" class="mx-auto">
 
-  <form action="/records" method="GET" id="index-category-filter" class="mx-auto">
+    <div class="form-group">
+      <input type="month" class="form-control" name="month" value="{{monthOption}}" onchange="this.form.submit()">
+    </div>
+
     <div class="form-group">
       <select class="form-control" name="category" onchange="this.form.submit()">
         <option disabled selected>類別</option>
         {{#each categoryList}}
-        <option value="{{this.name}}" {{#if_equal this.name ../selectedCategory}}selected{{/if_equal}}>{{this.name}}
+        <option value="{{this.name}}" {{#if_equal this.name ../cateOption}}selected{{/if_equal}}>{{this.name}}
         </option>
         {{/each}}
       </select>
     </div>
+
   </form>
 
   <div class="total-amount d-flex justify-content-center align-items-center">

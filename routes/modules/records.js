@@ -100,35 +100,33 @@ router.delete('/:id', async (req, res, next) => {
 
 //filter by category or month
 router.get('/', async (req, res, next) => {
-  const [filter, option] = Object.entries(req.query)[0]
+  const monthOption = req.query.month
+  const cateOption = req.query.category
 
-  if (filter === 'month') {
-    try {
-      const dateRange = getDateRange(option)
-      const records = await Record.find({ date: dateRange }).populate('category', 'name icon').lean()
-      formatDate(records)
-      const totalAmount = getTotalAmount(records)
-      const categoryList = await getCategoryList(Category)
-      res.render('index', { records, totalAmount, option, categoryList })
-    } catch (err) {
-      console.log(err)
-      next(err)
-    }
-  }
+  try {
+    //get date condition
+    const dateRange = monthOption.length ? getDateRange(monthOption) : null
 
-  if (filter === 'category') {
-    try {
-      const selectedCategory = req.query.category
-      const categoryList = await getCategoryList(Category)
-      const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
-      const records = await Record.find({ category: selectedCategoryId }).populate('category', 'name icon').lean()
-      formatDate(records)
-      const totalAmount = getTotalAmount(records)
-      res.render('index', { records, totalAmount, selectedCategory, categoryList })
-    } catch (err) {
-      console.log(err)
-      next(err)
+    //get category condition
+    const categoryList = await getCategoryList(Category)
+    const selectedCategoryId = cateOption ? categoryList.find(category => category.name === cateOption)._id : null
+
+    //general filter
+    const filter = {}
+    if (dateRange) {
+      filter.date = dateRange
     }
+    if (selectedCategoryId) {
+      filter.category = selectedCategoryId
+    }
+
+    const records = await Record.find(filter).populate('category', 'name icon').lean()
+    formatDate(records)
+    const totalAmount = getTotalAmount(records)
+    res.render('index', { records, totalAmount, monthOption, categoryList, cateOption })
+  } catch (err) {
+    console.log(err)
+    next(err)
   }
 })
 module.exports = router
