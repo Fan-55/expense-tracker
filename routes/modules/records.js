@@ -61,19 +61,39 @@ router.delete('/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-//filter by category
+//filter by category or month
 router.get('/', getCategoryList, async (req, res, next) => {
   const getTotalAmount = require('../../utils/getTotalAmount')
-  const selectedCategory = req.query.category
-  const categoryList = res.locals.categoryList
-  try {
-    const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
-    const records = await Record.find({ category: selectedCategoryId }).populate('category', 'name icon').lean()
-    getDate(records)
-    const totalAmount = getTotalAmount(records)
-    res.render('index', { records, totalAmount, selectedCategory })
-  } catch (err) {
-    next(err)
+
+  const [filter, option] = Object.entries(req.query)[0]
+
+  if (filter === 'month') {
+    const getDateRange = require('../../utils/getDateRange')
+    const dateRange = getDateRange(option)
+    console.log(dateRange)
+    try {
+      const records = await Record.find({ date: dateRange }).populate('category', 'name icon').lean()
+      getDate(records)
+      const totalAmount = getTotalAmount(records)
+      res.render('index', { records, totalAmount, option })
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
+
+  if (filter === 'category') {
+    const selectedCategory = req.query.category
+    const categoryList = res.locals.categoryList
+    try {
+      const selectedCategoryId = categoryList.find(category => category.name === selectedCategory)._id
+      const records = await Record.find({ category: selectedCategoryId }).populate('category', 'name icon').lean()
+      getDate(records)
+      const totalAmount = getTotalAmount(records)
+      res.render('index', { records, totalAmount, selectedCategory })
+    } catch (err) {
+      next(err)
+    }
   }
 })
 module.exports = router

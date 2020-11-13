@@ -1,5 +1,12 @@
 <div class="container mt-5 mb-5">
 
+  <form action="/records" method="GET" id="index-month-filter" class="mx-auto">
+    <div class="form-group">
+      <input type="month" class="form-control" name="month" aria-describedby="month-filter-Help" value="{{option}}"
+        onchange="this.form.submit()">
+    </div>
+  </form>
+
   <form action="/records" method="GET" id="index-category-filter" class="mx-auto">
     <div class="form-group">
       <select class="form-control" name="category" onchange="this.form.submit()">
@@ -47,9 +54,5 @@
       </div>
     </div>
     {{/each}}
-
-    <div class="col">
-
-    </div>
   </div>
 </div>
