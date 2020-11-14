@@ -46,6 +46,7 @@ router.post('/', async (req, res, next) => {
     newRecord.userId = req.user._id
     try {
       await Record.create(newRecord)
+      req.flash('success_msg', `成功新增一筆支出:${newRecord.name}`)
       res.redirect('/')
     } catch (err) {
       console.log(err)
@@ -76,7 +77,8 @@ router.put('/:id', async (req, res, next) => {
     const userId = req.user._id
     const originalRecord = await Record.findOne({ _id, userId }).exec()
     Object.assign(originalRecord, req.body)
-    await originalRecord.save()
+    const newRecord = await originalRecord.save()
+    req.flash('success_msg', `成功編輯:${newRecord.name}`)
     res.redirect('/')
   } catch (err) {
     console.log(err)
@@ -91,6 +93,7 @@ router.delete('/:id', async (req, res, next) => {
     const userId = req.user._id
     const record = await Record.findOne({ _id, userId })
     await record.remove()
+    req.flash('success_msg', `成功刪除:${record.name}`)
     res.redirect('/')
   } catch (err) {
     console.log(err)
