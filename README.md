@@ -1,8 +1,9 @@
 ## Expense Tracker
 
 This is a web application for you to keep track of your daily expense.
+[try it on heroku](https://polar-waters-17419.herokuapp.com/users/login)
 
-![](/screenshot/expense_tracker.png)
+![](/screenshot/expense-tracker.png)
 
 
 ### Features
