@@ -2,15 +2,17 @@
 
 This is a web application for you to keep track of your daily expense.
 
-![](/expense_tracker.jpg)
+![](/screenshot/expense_tracker.png)
 
 
 ### Features
 ---
-- filtering records by category using "種類" dropdown menu
-- clicking "編輯" button to modify the detail information of chosen record
-- clicking "刪除" button to remove the record from the list
-- confirmation message will pop up before deletion
+- register your own account
+- login via your own account or Facebook account
+- filtering records by category using "類別" dropdown menu
+- filtering records by month using "月份" dropdown menu
+- clicking editing icon to modify the detail information of chosen record
+- clicking delete icon to remove the record from the list
 
 ### How to use
 ---
@@ -19,7 +21,7 @@ This is a web application for you to keep track of your daily expense.
 - install [Robo 3T](https://robomongo.org/)
 - start the MongoDB server
 - create a MongoDB connection
-- create a database named "expense-tracker"
+- create a database named `expense-tracker`
 
 1. Clone this repository 
 
@@ -39,12 +41,23 @@ $ cd expense-tracker
 $ npm install
 ```
 
-4. Implant seed data
+4. Rename the `.env.example` file to `.env`
+
+For FACEBOOK_ID and FACEBOOK_SECRET in `.env`, go to [FACEBOOK for Developers](https://developers.facebook.com/) to create your own app. Then, add `Facebook Login` product to your app. Finally, replace the value of FACEBOOK_ID and FACEBOOK_SECRET with your own the App ID and App Secret respectively.
+
+5. Implant seed data
 ```
 $ npm run seed
 ```
+Once seed data is implanted, you will see the following on the terminal. Otherwise, errors will be shown on the terminal.
+```
+MongoDB connected!
+Category seeds created!
+MongoDB connected!
+record seeds created!
+```
 
-5. Execute app via either nodemon or node
+6. Execute app via either nodemon or node
 
 - via nodemon
 
@@ -58,22 +71,36 @@ $ npm run dev
 $ npm run start
 ```
 
-6. You will see the following on your terminal suggesting successful set up
+7. You will see the following on your terminal suggesting successful set up
 
 ```
 This app is listening at http://loaclhost:3000
 MongoDB connected!
 ```
-7. Open the browser and type in the following URL then you are ready to go!
+8. Open the browser and type in the following URL then you are ready to go!
 
 ```
-http://localhost:3000
+http://localhost:3000/users/login
 ```
+
+9. Use the following seed user data to log in or create your own account
+
+| Email | password |
+| ------ | ------ |
+| user1@example.com | 123 |
+| user2@example.com | 123 |
 ### Tools used for this web application
 ---
 - Node.js: v10.15.0
 - Express: v4.17.1
 - express-handlebars: v5.1.0
+- bcrypt: v2.4.3
+- connect-flash: v0.1.1
+- dotenv: v8.2.0
+- express-session: v1.17.7
+- passport: v0.4.1
+- passport-facebook: v3.0.0
+- passport-local: v1.0.0
 - method-override: v3.0.0
 - body-parser: v1.19.0
 - mongoose: v5.10.9
