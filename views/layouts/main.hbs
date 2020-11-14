@@ -13,11 +13,16 @@
 <body>
   {{!-- navbar --}}
   <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="/"><i class="fas fa-dollar-sign mr-1"></i>老爸的私房錢</a>
-    {{#if isAuthenticated}}
-    <a href="/users/logout" class="btn btn-success">登出</a>
-    <a href="/records/new" class="btn btn-success">新增支出</a>
-    {{/if}}
+    <div class="container">
+      <a class="navbar-brand" href="/"><i
+          class="fas fa-dollar-sign mr-1"></i>{{#if isAuthenticated}}{{user.name}}{{else}}老爸{{/if}}的記帳本</a>
+      {{#if isAuthenticated}}
+      <div>
+        <a href="/records/new" class="btn btn-success">新增支出</a>
+        <a href="/users/logout" class="btn btn-light">登出</a>
+      </div>
+      {{/if}}
+    </div>
   </nav>
 
   {{!-- template --}}
