@@ -20,7 +20,6 @@ router.get('/new', async (req, res, next) => {
 
 //Create a new record
 router.post('/', async (req, res, next) => {
-  console.log(req.body)
   const { name, merchant, date, category, amount } = req.body
 
   const errors = {}
