@@ -4,7 +4,7 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
-const { getTotalAmount, formatDate, getCategoryList, getLocalDate, getDateRange } = require('../../utils/functions')
+const { getTotalAmount, formatDate, getCategoryList, getLocalDate, getDateRange, getCreateRecordErrors } = require('../../utils/functions')
 
 //get "create a new record" page
 router.get('/new', async (req, res, next) => {
@@ -21,20 +21,7 @@ router.get('/new', async (req, res, next) => {
 //Create a new record
 router.post('/', async (req, res, next) => {
   const { name, merchant, date, category, amount } = req.body
-
-  const errors = {}
-  if (!name) {
-    errors.name = '名稱為必填欄位。'
-  }
-  if (!date) {
-    errors.date = '日期為必填欄位。'
-  }
-  if (!category) {
-    errors.category = '種類為必填欄位。'
-  }
-  if (!amount) {
-    errors.amount = '金額為必填欄位。'
-  }
+  const errors = getCreateRecordErrors(name, date, category, amount)
 
   //if error exists, go back to edit page with error message; else save the updated data and go back to index page
   if (Object.keys(errors).length) {

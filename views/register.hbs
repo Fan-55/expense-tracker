@@ -7,7 +7,7 @@
         <div class="form-group">
           <label for="name">姓名<span class="asterisk">*</span></label>
           <input type="text" id="name" name="name" class="form-control {{#if errors.name}}is-invalid{{/if}}"
-            placeholder="請輸入姓名" value="{{name}}">
+            placeholder="請輸入姓名" value="{{name}}" required>
           {{#if errors.name}}
           <div class="invalid-feedback">
             {{errors.name}}
@@ -19,7 +19,7 @@
           <label for="email">Email<span class="asterisk">*</span></label>
           <input type="email" id="email" name="email"
             class="form-control {{#if_true errors.email errors.userExist}}is-invalid{{/if_true}}" placeholder="請輸入Email"
-            value="{{email}}">
+            value="{{email}}" required>
           {{#if errors.email}}
           <div class="invalid-feedback">
             {{errors.email}}
@@ -36,7 +36,7 @@
           <label for="password">密碼<span class="asterisk">*</span></label>
           <input type="password" id="password" name="password"
             class="form-control {{#if_true errors.password errors.diffPassword}}is-invalid{{/if_true}}"
-            placeholder="請輸入密碼" value="{{password}}">
+            placeholder="請輸入密碼" value="{{password}}" required>
           {{#if errors.password}}
           <div class="invalid-feedback">
             {{errors.password}}
@@ -52,7 +52,7 @@
         <div class="form-group">
           <label for="confirmPassword">確認密碼<span class="asterisk">*</span></label>
           <input type="password" id="confirmPassword" name="confirmPassword"
-            class="form-control {{#if errors.diffPassword}}is-invalid{{/if}}" placeholder="請再輸入一次密碼">
+            class="form-control {{#if errors.diffPassword}}is-invalid{{/if}}" placeholder="請再輸入一次密碼" required>
           {{#if errors.diffPassword}}
           <div class="invalid-feedback">
             {{errors.diffPassword}}
