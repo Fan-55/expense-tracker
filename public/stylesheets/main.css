@@ -1,12 +1,13 @@
 html, body {
   font-family: 'MicroSoft Jhenghei', sans-serif;
+  background-color: whitesmoke;
 }
 
 .navbar-brand:hover {
   font-size:1.5rem;
 }
 
-#index-category-filter, #new-form, #edit-form, #records {
+#edit-form, #new-form {
   max-width: 500px;
 }
 
@@ -14,6 +15,11 @@ h1 {
   font-size: 4rem;
 }
 
-.category-icon {
-  width: 40px;
+.asterisk {
+  color: red;
+}
+
+#month-filter {
+  width: 150%;
+  margin-right: 20px;
 }

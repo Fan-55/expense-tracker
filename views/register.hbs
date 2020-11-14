@@ -3,9 +3,9 @@
     <div class="card card-body">
       <h2 class="text-center mt-3">會員註冊</h2>
       <form action="/users/register" method="POST">
-        <small>必填欄位*</small>
+        <small class="hint d-block mb-2" style="color:red;">*必填欄位</small>
         <div class="form-group">
-          <label for="name">*姓名</label>
+          <label for="name">姓名<span class="asterisk">*</span></label>
           <input type="text" id="name" name="name" class="form-control {{#if errors.name}}is-invalid{{/if}}"
             placeholder="請輸入姓名" value="{{name}}">
           {{#if errors.name}}
@@ -16,7 +16,7 @@
         </div>
 
         <div class="form-group">
-          <label for="email">*Email</label>
+          <label for="email">Email<span class="asterisk">*</span></label>
           <input type="email" id="email" name="email"
             class="form-control {{#if_true errors.email errors.userExist}}is-invalid{{/if_true}}" placeholder="請輸入Email"
             value="{{email}}">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-group">
-          <label for="password">*密碼</label>
+          <label for="password">密碼<span class="asterisk">*</span></label>
           <input type="password" id="password" name="password"
             class="form-control {{#if_true errors.password errors.diffPassword}}is-invalid{{/if_true}}"
             placeholder="請輸入密碼" value="{{password}}">
@@ -50,7 +50,7 @@
         </div>
 
         <div class="form-group">
-          <label for="confirmPassword">*確認密碼</label>
+          <label for="confirmPassword">確認密碼<span class="asterisk">*</span></label>
           <input type="password" id="confirmPassword" name="confirmPassword"
             class="form-control {{#if errors.diffPassword}}is-invalid{{/if}}" placeholder="請再輸入一次密碼">
           {{#if errors.diffPassword}}

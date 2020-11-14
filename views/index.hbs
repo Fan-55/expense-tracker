@@ -1,57 +1,68 @@
-<div class="container mt-5 mb-5">
-
-  <form action="/records" method="GET" id="index-filter" class="mx-auto">
-
-    <div class="form-group">
-      <input type="month" class="form-control" name="month" value="{{monthOption}}" onchange="this.form.submit()">
-    </div>
-
-    <div class="form-group">
-      <select class="form-control" name="category" onchange="this.form.submit()">
-        <option disabled selected>類別</option>
-        {{#each categoryList}}
-        <option value="{{this.name}}" {{#if_equal this.name ../cateOption}}selected{{/if_equal}}>{{this.name}}
-        </option>
-        {{/each}}
-      </select>
-    </div>
-
-  </form>
-
+<div class="container mt-3 mb-5" style="max-width: 600px;">
   <div class="total-amount d-flex justify-content-center align-items-center">
     <h5 class="mr-3">總金額:</h5>
     <h1>{{totalAmount}}</h1>
   </div>
 
-  <div class="row row-cols-1 list-group mx-auto" id="records">
+  <form action="/records" method="GET" id="index-filter" class="mb-2 mx-auto">
+    <div class="d-flex">
+      <div class="input-group form-group" id="month-filter">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="month">月份</label>
+        </div>
+        <input type="month" class="form-control" name="month" value="{{monthOption}}" onchange="this.form.submit()"
+          id="month">
+        <div class="input-group-append">
+          <a href="{{#if cateOption}}/records?month=&category={{cateOption}}{{else}}/{{/if}}" class="btn btn-primary"><i
+              class="fas fa-times"></i></a>
+        </div>
+      </div>
+
+      <div class="input-group form-group">
+        <select class="form-control" name="category" onchange="this.form.submit()" id="category-filter">
+          <option disabled selected>類別</option>
+          {{#each categoryList}}
+          <option value="{{this.name}}" {{#if_equal this.name ../cateOption}}selected{{/if_equal}}>{{this.name}}
+          </option>
+          {{/each}}
+        </select>
+        <div class="input-group-append">
+          <a href="{{#if monthOption}}/records?month={{monthOption}}{{else}}/{{/if}}" class="btn btn-primary"><i
+              class="fas fa-times"></i></a>
+        </div>
+      </div>
+
+  </form>
+</div>
+
+<table class="table table-striped" id="record-panel">
+  <thead>
+    <tr>
+      <th scope="col-1"></th>
+      <th scope="col-5">項目</th>
+      <th scope="col-1">日期</th>
+      <th scope="col-1">店家</th>
+      <th scope="col-1">金額</th>
+      <th scope="col-3">編輯</th>
+    </tr>
+  </thead>
+  <tbody>
     {{#each records}}
-    <div class="col list-group-item d-flex align-items-center flex-wrap">
-
-      <div class="category-icon mr-3">
-        {{{this.category.icon}}}
-      </div>
-
-      <div class="name-and-date flex-grow-1">
-        <div class="name">
-          {{this.name}}
-        </div>
-        <div class="date">
-          {{this.date}}
-        </div>
-      </div>
-
-      <div class="amount mr-5">
-        <i class="fas fa-dollar-sign"></i>
-        <span>{{this.amount}}</span>
-      </div>
-
-      <div class="edit-wrapper d-flex align-items-center">
-        <a href="/records/{{this._id}}/edit" class="btn btn-info btn-sm mr-1">編輯</a>
+    <tr>
+      <th scope="row">{{{this.category.icon}}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.date}}</td>
+      <td>{{this.merchant}}</td>
+      <td>{{this.amount}}</td>
+      <td class="edit-record d-flex">
+        <a href="/records/{{this._id}}/edit" class="btn btn-info btn-sm mr-1"><i class="fas fa-edit"></i></a>
         <form action="/records/{{this._id}}?_method=DELETE" method="POST">
-          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('確定要刪除這筆紀錄嗎?')">刪除</button>
+          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('確定要刪除這筆紀錄嗎?')"><i
+              class="fas fa-trash-alt"></i></button>
         </form>
-      </div>
-    </div>
+      </td>
+    </tr>
     {{/each}}
-  </div>
+  </tbody>
+</table>
 </div>

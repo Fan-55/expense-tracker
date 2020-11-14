@@ -2,11 +2,10 @@
   <h4 class="text-center">請輸入你的支出</h4>
 
   <form action="/records" method="POST" id="new-form" class="mx-auto">
-    <small class="hint d-block mb-2">*必填欄位</small>
-
+    <small class="hint d-block mb-2" style="color:red;">*必填欄位</small>
 
     <div class="form-group">
-      <label for="name">名稱*</label>
+      <label for="name">名稱<span class="asterisk">*</span></label>
       <input type="text" class="form-control {{#if errors.name}}is-invalid{{/if}}" id="name" name="name"
         aria-describedby="nameHelp" value="{{name}}" required>
       {{#if errors.name}}
@@ -23,7 +22,7 @@
     </div>
 
     <div class="form-group">
-      <label for="date">日期*</label>
+      <label for="date">日期<span class="asterisk">*</span></label>
       <input type="date" class="form-control {{#if errors.date}}is-invalid{{/if}}" id="date" name="date"
         aria-describedby="dateHelp" value="{{date}}" required>
       {{#if errors.date}}
@@ -34,7 +33,7 @@
     </div>
 
     <div class="form-group">
-      <label for="date">類別*</label>
+      <label for="date">類別<span class="asterisk">*</span></label>
       <select class="form-control {{#if errors.category}}is-invalid{{/if}}" id="category" name="category" required>
         <option disabled selected>Select</option>
         {{#each categoryList}}
@@ -50,7 +49,7 @@
     </div>
 
     <div class="form-group">
-      <label for="amount">金額*</label>
+      <label for="amount">金額<span class="asterisk">*</span></label>
       <input type="number" class="form-control {{#if errors.amount}}is-invalid{{/if}}" id="amount" name="amount"
         aria-describedby="amountHelp" value="{{amount}}" required>
       {{#if errors.amount}}
