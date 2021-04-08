@@ -1,10 +1,19 @@
 ## Expense Tracker
 
 This is a web application for you to keep track of your daily expense.
-[try it on heroku](https://polar-waters-17419.herokuapp.com/users/login)
-
 ![](/screenshot/expense-tracker.png)
 
+
+### Demo
+---
+👉 [Try it on heroku (click me)](https://expense-tracker-fan55.herokuapp.com/users/login)
+
+Use the following seed user data to log in or register your own account
+
+| Email | password |
+| ------ | ------ |
+| user1@example.com | 123 |
+| user2@example.com | 123 |
 
 ### Features
 ---
@@ -83,13 +92,6 @@ MongoDB connected!
 ```
 http://localhost:3000/users/login
 ```
-
-9. Use the following seed user data to log in or create your own account
-
-| Email | password |
-| ------ | ------ |
-| user1@example.com | 123 |
-| user2@example.com | 123 |
 ### Tools used for this web application
 ---
 - Node.js: v10.15.0
